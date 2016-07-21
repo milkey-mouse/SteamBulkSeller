@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Steam Bookmarklet</title>
+</head>
+<body>
+<p>Loading...</p>
+<noscript>You need Javascript for this page, or manually drag the file from the <a href="https://github.com/milkey-mouse/SteamBulkSeller">GitHub listing.</a></noscript>
+<script>
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function(){
+ if(xhttp.readyState == XMLHttpRequest.DONE){
+  var body = document.getElementsByTagName('body')[0];
+  body.children[0].remove();
+  if(xhttp.status !== 200){
+   body.appendChild(document.createElement('p')).innerHTML = "The request to GitHub failed. GitHub may be down. Wait until it's up, or try manually dragging the file from the <a href='https://github.com/milkey-mouse/SteamBulkSeller'>GitHub repository.</a>";
+   return;
+  }
+  body.appendChild(document.createElement('p')).innerText = "Drag this link to your bookmarklets bar (open with Ctrl-Shift-B in Chrome): ";
+  var link = body.appendChild(document.createElement('a'));
+  link.href = "javascript:" + encodeURI(xhttp.responseText.replace("\r", "").replace("\n", ""));
+  link.innerText = "Sell all Steam cards";
+ }
+};
+xhttp.open("GET", "https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/steam-bulk-sell.js?" + btoa(Math.random()), true); //use a random string for the query to circumvent caching
+xhttp.send();	
+</script>
+</body>
+</html>
