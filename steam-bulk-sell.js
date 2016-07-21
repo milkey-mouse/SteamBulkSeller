@@ -1,3 +1,4 @@
+if(!(window.location.href.startsWith("https://steamcommunity.com/id/") && window.location.href.startsWith("/inventory/"))){alert("This script won't work if you aren't on the Steam inventory page.");}
 if(g_rgWalletInfo['wallet_currency'] === 0) {
     alert("You can't sell trading cards, manually or automatically, until money has been in your Steam wallet.");
 }
