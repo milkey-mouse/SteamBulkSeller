@@ -16,5 +16,6 @@ var cards = document.getElementsByClassName("itemHolder");
 for(var i=0;i<cards.length;i++) {
     if(cards[i].style.display === "none"){continue;}
     if(cards[i].classList.contains("disabled")){continue;}
-    console.log(cards[i]);
+    cards[i].click();
+    //console.log(cards[i]);
 }
