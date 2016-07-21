@@ -32,3 +32,5 @@ From here you can either create a bookmarklet or manually input the file content
 
 - Paste the contents of [this file](https://github.com/milkey-mouse/SteamBulkSeller/blob/master/steam-bulk-sell.js) after the caret in the console and press enter.
 - Wait while it sells all the cards. It should only take 60 seconds or so.
+
+**DISCLAIMER:** I take no responsibility to anything that happens to your Steam inventory or account while using this program.
