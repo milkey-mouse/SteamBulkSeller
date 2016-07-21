@@ -22,6 +22,8 @@ From here you can either create a bookmarklet or manually input the file content
 - Go to [this page](https://milkey-mouse.github.io/SteamBulkSeller/) to "install" the bookmarklet.
 - Go back to the Steam page and click on the new bookmark.
 
+![GIF of bookmarklet installation](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/drag-bookmarklet.gif)
+
 ### Manual input
 - On the Steam inventory page, press `F12` to open the dev console and switch to the tab marked "Console". This works on all major browsers, but the screenshot is of Chrome:
 
