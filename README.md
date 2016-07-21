@@ -21,6 +21,7 @@ From here you can either create a bookmarklet or manually input the file content
 ### Bookmarklet (easiest option)
 - Go to [this page](https://milkey-mouse.github.io/SteamBulkSeller/) to "install" the bookmarklet.
 - Go back to the Steam page and click on the new bookmark.
+- Wait while it sells all the cards. It should only take 60 seconds or so.
 
 ![GIF of bookmarklet installation](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/drag-bookmarklet.gif)
 
