@@ -18,12 +18,14 @@ xhttp.onreadystatechange = function(){
   }
   body.appendChild(document.createElement('p')).innerText = "Drag this link to your bookmarklets bar (open with Ctrl-Shift-B in Chrome): ";
   var link = body.appendChild(document.createElement('a'));
-  link.href = "javascript:" + encodeURI(xhttp.responseText.replace("\r", "").replace("\n", ""));
+  var bookmarkletJS = xhttp.responseText
+  link.href = "javascript:" + encodeURI(JSON.parse(xhttp.responseText).compiledCode);
   link.innerText = "Sell all Steam cards";
  }
 };
-xhttp.open("GET", "https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/steam-bulk-sell.js?" + btoa(Math.random()), true); //use a random string for the query to circumvent caching
-xhttp.send();	
+xhttp.open("POST", "https://closure-compiler.appspot.com/compile", true); //use a random string for the query to circumvent caching
+xhttp.setRequestHeader("content-type","application/x-www-form-urlencoded");
+xhttp.send("code_url=https%3A%2F%2Fraw.githubusercontent.com%2Fmilkey-mouse%2FSteamBulkSeller%2Fmaster%2Fsteam-bulk-sell.js&compilation_level=SIMPLE_OPTIMIZATIONS&js_code=&output_format=json&output_info=compiled_code");	
 </script>
 </body>
 </html>
