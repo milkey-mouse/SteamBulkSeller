@@ -13,7 +13,7 @@ for(var i=0;i<checkboxes.length;i++) {
 }
 var cards = document.getElementsByClassName("itemHolder");
 for(var i=0;i<cards.length;i++) {
-    if(cards[i].style.display === "none"){return;}
-    if(cards[i].classList.contains("disabled")){return;}
+    if(cards[i].style.display === "none"){continue;}
+    if(cards[i].classList.contains("disabled")){continue;}
     console.log(cards[i]);
 }
