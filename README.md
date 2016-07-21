@@ -19,7 +19,7 @@ This script works well with [IdleMaster](http://steamidlemaster.com/), a program
 From here you can either create a bookmarklet or manually input the file contents.
 
 ### Bookmarklet (easiest option)
-- Drag the link on [this page](https://milkey-mouse.github.io/SteamBulkSeller/) to the bookmarks bar.
+- Go to [this page](https://milkey-mouse.github.io/SteamBulkSeller/) to "install" the bookmarklet.
 - Go back to the Steam page and click on the new bookmark.
 
 ### Manual input
