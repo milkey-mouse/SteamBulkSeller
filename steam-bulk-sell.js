@@ -47,7 +47,7 @@ function sellNextCard(){
     g_ActiveInventory.SelectItem(null, elItem, elItem.rgItem, false);
     //monkey-patch the XMLHTTPRequest result for the price data
     SellItemDialog.OnPriceHistorySuccess = function(transport){
-        for(var i=transport.responseJSON.prices.length;i>0;i--){
+        for(var i=transport.responseJSON.prices.length-1;i>0;i--){
             if(Date.now() - dateStringToTicks(transport.responseJSON.prices[i][0]) > 1000*60*60*24*10){continue;} //ignore data older than 10 days
             console.log(transport.responseJSON.prices[i][0]);
         }
