@@ -4,7 +4,7 @@ If you're like me, you don't care much about custom emoji or whatever collecting
 
 This small JavaScript snippet automatically sells all of the Steam trading cards in your inventory. It sells them for the median price of each card for the past week's sales.
 
-This script works well with [IdleMaster](http://steamidlemaster.com/), a program you can leave running to get all possible Steam trading cards from your games.
+This script works well with [IdleMaster](http://steamidlemaster.com/) ([non-Windows version](https://github.com/jshackles/idle_master_py)), a program you can leave running to get all possible Steam trading cards from your games.
 
 ## How to use
 
