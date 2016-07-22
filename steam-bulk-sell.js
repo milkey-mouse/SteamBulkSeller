@@ -100,7 +100,7 @@ function patched_OnSuccess(transport){
     UserYou.ReloadInventory = real_ReloadInventory;
     SellItemDialog.Dismiss();
     cardsJustSold++;
-    setTimeout(sellNextCard, 500);
+    setTimeout(sellNextCard, 800);
 }
 
 function patched_OnFailure(transport){
