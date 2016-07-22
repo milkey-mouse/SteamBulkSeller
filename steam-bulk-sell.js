@@ -38,6 +38,7 @@ function disableFilters(){
 
 var profit_total_nofee = 0;
 var profit_total = 0;
+var cardsJustSold = 0;
 var errors = false;
 var card_idx = 0;
 
@@ -66,8 +67,18 @@ function dateStringToTicks(dstring){
 
 //keep the original versions of the patched functions to pass to at the end
 var real_OnPriceHistorySuccess = SellItemDialog.OnPriceHistorySuccess;
+var real_ReloadInventory = UserYou.ReloadInventory;
 var real_OnSuccess = SellItemDialog.OnSuccess;
 var real_OnFailure = SellItemDialog.OnFailure;
+var real_BuildHover = BuildHover;
+
+function patched_BuildHover(prefix,item,owner){
+    try {
+        real_BuildHover(prefix,item,owner);
+    } catch(TypeError) { //ended with an error
+        finishSelling();
+    }
+}
 
 function patched_OnSuccess(transport){
     if(transport.responseJSON)
@@ -84,26 +95,31 @@ function patched_OnSuccess(transport){
         transport.responseJSON.needs_email_confirmation = false;
         transport.responseJSON.needs_mobile_confirmation = false;
     }
-    //disable ReloadInventory so our card indexes stay valid
-    var real_ReloadInventory = UserYou.ReloadInventory;
-    UserYou.ReloadInventory = function(appid,contextid){};
     //use call() to spoof 'this' from window to SellItemDialog
     real_OnSuccess.call(SellItemDialog, transport);
     UserYou.ReloadInventory = real_ReloadInventory;
-    SellItemDialog.OnFailure = real_OnFailure; //unpatch OnFailure
+    SellItemDialog.Dismiss();
+    cardsJustSold++;
+    setTimeout(sellNextCard, 500);
 }
 
 function patched_OnFailure(transport){
     errors = true;
-    var elItem = document.getElementsByClassName("itemHolder")[card_idx].children[0];
-    var cardName = elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ")";
+    var cardName = "???";
+    try{
+        var elItem = document.getElementsByClassName("itemHolder")[card_idx].children[0];
+        cardName = elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ")";
+    } catch(TypeError) {}
     if(transport.responseJSON && transport.responseJSON.message){
         console.error("An error occurred while selling " + cardName + ":\n" + transport.responseJSON.message);
     } else {
         console.error("An unidentified error occurred while selling " + cardName + ".");
     }
+    profit_total -= SellItemDialog.GetPriceAsInt();
+    profit_total_nofee -= SellItemDialog.GetBuyerPriceAsInt();
+    real_OnFailure.call(SellItemDialog, transport);
     SellItemDialog.Dismiss();
-    SellItemDialog.OnFailure = real_OnFailure; //unpatches itself
+    setTimeout(sellNextCard, 800);
 }
 
 function patched_OnPriceHistorySuccess(transport){
@@ -146,33 +162,28 @@ function patched_OnPriceHistorySuccess(transport){
     //recompute Steam fees
     SellItemDialog.OnBuyerPriceInputKeyUp(null); //tell it we changed the price
     profit_total += SellItemDialog.GetPriceAsInt();
-    //patch OnSuccess to not squawk about email or app confirmation
-    SellItemDialog.OnSuccess = patched_OnSuccess;
-    //patch OnFailure to emit to console and mention it in the stats
-    SellItemDialog.OnFailure = patched_OnFailure;
     //sell the card
     var mockEvent = {stop:function(){}};
     SellItemDialog.OnAccept(mockEvent);
     SellItemDialog.OnConfirmationAccept(mockEvent);
-    //unpatch stuff
-    SellItemDialog.OnSuccess = real_OnSuccess;
-    SellItemDialog.OnPriceHistorySuccess = real_OnPriceHistorySuccess;
 }
 
 var email_confirm = false;
 var mobile_confirm = false;
 
 function sellNextCard(){
-    enableFilters();
     var cards = document.getElementsByClassName("itemHolder");
     while(cards[card_idx].style.display === "none" && card_idx<cards.length){card_idx++;}
-    if(card_idx>=cards.length){return;}
+    if(card_idx>cards.length){return;}
+    if(card_idx == cards.length){
+        finishSelling();
+        return;
+    }
     var elItem = cards[card_idx].children[0];
     g_ActiveInventory.SelectItem(null, elItem, elItem.rgItem, false);
-    //monkey-patch the XMLHTTPRequest result for the price data
-    SellItemDialog.OnPriceHistorySuccess = patched_OnPriceHistorySuccess;
+    
     SellCurrentSelection();
-    console.log("Sold " + elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ").");
+    console.log("Selling " + elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ").");
     card_idx++;
 }
 
@@ -188,6 +199,38 @@ function showCardSellStats(){
         confirmation_text += "\n\nThere were some errors while selling cards. Check the console (F12) to see them.";
     }
     alert("Finished selling cards." +
+    "\nCards successfully sold: " + cardsJustSold + 
     "\nTotal profit: " + v_currencyformat(profit_total_nofee, GetCurrencyCode(g_rgWalletInfo['wallet_currency'])) +
-    "\nTotal profit after Steam fees (est.): " + v_currencyformat(profit_total, GetCurrencyCode(g_rgWalletInfo['wallet_currency'])) + confirmation_text);
+    "\nTotal profit after Steam fees (est.): " + v_currencyformat(profit_total, GetCurrencyCode(g_rgWalletInfo['wallet_currency'])) +
+    confirmation_text);
 }
+
+function runSellCycle(){
+    enableFilters();
+    //monkey-patch the XMLHTTPRequest result for the price data
+    SellItemDialog.OnPriceHistorySuccess = patched_OnPriceHistorySuccess;
+    //disable ReloadInventory so our card indexes stay valid
+    UserYou.ReloadInventory = function(appid,contextid){};
+    //patch OnSuccess to not squawk about email or app confirmation
+    SellItemDialog.OnSuccess = patched_OnSuccess;
+    //patch OnFailure to emit to console and mention it in the stats
+    SellItemDialog.OnFailure = patched_OnFailure;
+    //patch BuildHover to end the cycle when item is null instead of erroring
+    BuildHover = patched_BuildHover;
+    //start the cycle
+    sellNextCard();
+}
+
+function finishSelling(){
+    //we're done
+    disableFilters();
+    //unpatch everything
+    SellItemDialog.OnPriceHistorySuccess = real_OnPriceHistorySuccess;
+    UserYou.ReloadInventory = real_ReloadInventory;
+    SellItemDialog.OnSuccess = real_OnSuccess;
+    SellItemDialog.OnFailure = real_OnFailure;
+    BuildHover = real_BuildHover;
+    showCardSellStats();
+}
+
+runSellCycle();
