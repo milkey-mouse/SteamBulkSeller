@@ -2,7 +2,7 @@
 
 If you're like me, you don't care much about custom emoji or whatever collecting Steam Trading Cards get you. Instead, you can sell each of the cards for about 10¢ each. If you've got an inventory with hundreds of cards, this can make you enough money (in Steam store credit) to buy a few cheap games.
 
-This small JavaScript snippet automatically sells all of the Steam trading cards in your inventory. It sells them for the median price of each card for the past week's sales.
+This small JavaScript snippet automatically sells all of the Steam trading cards in your inventory. It sells them for the median price of the past ten days' sales.
 
 This script works well with [IdleMaster](http://steamidlemaster.com/) ([non-Windows version](https://github.com/jshackles/idle_master_py)), a program you can leave running to get all possible Steam trading cards from your games.
 
