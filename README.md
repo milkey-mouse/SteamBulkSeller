@@ -26,7 +26,7 @@ From here you can either create a bookmarklet or manually input the file content
 ![GIF of bookmarklet installation](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/drag-bookmarklet.gif)
 
 ### Manual input
-- On the Steam inventory page, press `F12` to open the dev console and switch to the tab marked "Console". This works on all major browsers, but the screenshot is of Chrome:
+- On the Steam inventory page, press `Ctrl-Shift-I` or `Cmd-Alt-I` to open the dev console. This works on all major browsers, but the screenshot is of Chrome:
 
 ![Open the Chrome dev console](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/chrome_dev_console.jpg)
 
