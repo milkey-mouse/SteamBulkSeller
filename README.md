@@ -10,11 +10,11 @@ This script works well with [IdleMaster](http://steamidlemaster.com/) ([non-Wind
 
 - Log into Steam on [the Steam website](https://steamcommunity.com/login):
 
-![Steam website login](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/steam_signin.jpg)
+![Steam website login](./steam_signin.jpg)
 
 - Go to your inventory:
 
-![Inventory on Steam dropdown](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/inventory_dropdown.jpg)
+![Inventory on Steam dropdown](./inventory_dropdown.jpg)
 
 From here you can either create a bookmarklet or manually input the file contents.
 
@@ -23,14 +23,14 @@ From here you can either create a bookmarklet or manually input the file content
 - Go back to the Steam page and click on the new bookmark.
 - Wait while it sells all the cards. It should only take 60 seconds or so.
 
-![GIF of bookmarklet installation](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/drag-bookmarklet.gif)
+![GIF of bookmarklet installation](./drag-bookmarklet.gif)
 
 ### Manual input
 - On the Steam inventory page, press `Ctrl-Shift-I` or `Cmd-Alt-I` to open the dev console. This works on all major browsers, but the screenshot is of Chrome:
 
-![Open the Chrome dev console](https://raw.githubusercontent.com/milkey-mouse/SteamBulkSeller/master/chrome_dev_console.jpg)
+![Open the Chrome dev console](./chrome_dev_console.jpg)
 
-- Paste the contents of [this file](https://github.com/milkey-mouse/SteamBulkSeller/blob/master/steam-bulk-sell.js) after the caret in the console and press enter.
+- Paste the contents of [this file](./steam-bulk-sell.js) after the caret in the console and press enter.
 - Wait while it sells all the cards. It should only take 60 seconds or so.
 
 **DISCLAIMER:** I take no responsibility to anything that happens to your Steam inventory or account while using this program.
