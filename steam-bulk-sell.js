@@ -183,7 +183,7 @@ function sellNextCard(){
     g_ActiveInventory.SelectItem(null, elItem, elItem.rgItem, false);
     
     SellCurrentSelection();
-    console.log("Selling " + elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ").");
+    //console.log("Selling " + elItem.rgItem.name + " (" + elItem.rgItem.type.replace(" Trading Card", "") + ").");
     card_idx++;
 }
 
